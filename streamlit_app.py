@@ -12,9 +12,17 @@ SRC_PATH = PROJECT_ROOT / "src"
 if str(SRC_PATH) not in sys.path:
     sys.path.append(str(SRC_PATH))
 
-from olist.config import RAW_DATA_DIR  # noqa: E402
-from olist.data import build_order_level_dataset, load_all, load_table, validate_raw_files  # noqa: E402
+from olist.config import CSV_FILES  # noqa: E402
+from olist.data import build_order_level_dataset  # noqa: E402
 from olist.features import add_delivery_features, add_review_target, add_temporal_features  # noqa: E402
+
+
+PARQUET_DATA_DIR = PROJECT_ROOT / "data" / "parquet"
+PARQUET_FILES = {
+    table_name: PARQUET_DATA_DIR / f"{Path(csv_file).stem}.parquet"
+    for table_name, csv_file in CSV_FILES.items()
+    if table_name != "geolocation"
+}
 
 
 st.set_page_config(
@@ -26,7 +34,7 @@ st.set_page_config(
 
 @st.cache_data(show_spinner="Carregando e integrando os dados da Olist...")
 def load_order_level() -> pd.DataFrame:
-    tables = load_all(include_geolocation=False)
+    tables = load_parquet_tables()
     order_level = build_order_level_dataset(tables)
     order_level = add_temporal_features(order_level)
     order_level = add_delivery_features(order_level)
@@ -37,9 +45,36 @@ def load_order_level() -> pd.DataFrame:
     return order_level
 
 
+@st.cache_data(show_spinner="Carregando arquivos Parquet...")
+def load_parquet_tables() -> dict[str, pd.DataFrame]:
+    return {
+        table_name: pd.read_parquet(path)
+        for table_name, path in PARQUET_FILES.items()
+    }
+
+
+def validate_parquet_files() -> pd.DataFrame:
+    rows = []
+
+    for table_name, path in PARQUET_FILES.items():
+        exists = path.exists()
+        rows.append(
+            {
+                "table": table_name,
+                "file_name": path.name,
+                "path": str(path),
+                "required": True,
+                "exists": exists,
+                "size_mb": round(path.stat().st_size / 1024**2, 2) if exists else None,
+            }
+        )
+
+    return pd.DataFrame(rows)
+
+
 @st.cache_data(show_spinner="Calculando indicadores por vendedor...")
 def load_seller_risk(delivered_orders: pd.DataFrame) -> pd.DataFrame:
-    items = load_table("order_items")
+    items = load_parquet_tables()["order_items"]
     seller_orders = items[["order_id", "seller_id"]].drop_duplicates()
 
     return (
@@ -155,10 +190,10 @@ def apply_filters(df: pd.DataFrame) -> pd.DataFrame:
     return filtered
 
 
-st.title("Olist Ecommerce Analytics")
+st.title("Olist e-commerce analytics")
 st.caption("Dashboard de portfolio para diagnostico comercial, logistico e satisfacao do cliente.")
 
-file_status = validate_raw_files()
+file_status = validate_parquet_files()
 missing_required = file_status[file_status["required"] & ~file_status["exists"]]
 
 with st.expander("Status dos arquivos de dados", expanded=False):
@@ -166,7 +201,7 @@ with st.expander("Status dos arquivos de dados", expanded=False):
 
 if not missing_required.empty:
     st.error(
-        "Arquivos obrigatorios ausentes em data/raw. Confira o repositorio antes de fazer o deploy."
+        "Arquivos obrigatorios ausentes em data/parquet. Confira o repositorio antes de fazer o deploy."
     )
     st.stop()
 
@@ -183,7 +218,7 @@ delivered = order_level[
 filtered = apply_filters(delivered)
 
 st.sidebar.markdown("---")
-st.sidebar.write(f"Fonte de dados: `{RAW_DATA_DIR}`")
+st.sidebar.write(f"Fonte de dados: `{PARQUET_DATA_DIR}`")
 st.sidebar.write(f"Pedidos filtrados: {filtered['order_id'].nunique():,.0f}".replace(",", "."))
 
 if filtered.empty:
