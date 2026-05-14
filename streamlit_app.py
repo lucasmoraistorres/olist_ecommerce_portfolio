@@ -3,9 +3,7 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-import matplotlib.pyplot as plt
 import pandas as pd
-import seaborn as sns
 import streamlit as st
 
 
@@ -90,25 +88,16 @@ def metric_row(df: pd.DataFrame) -> None:
     cols[5].metric("Entrega media", f"{avg_delivery:.1f} dias" if pd.notna(avg_delivery) else "-")
 
 
-def bar_chart(data: pd.DataFrame, x: str, y: str, title: str, xlabel: str = "", ylabel: str = ""):
-    fig, ax = plt.subplots(figsize=(10, 5))
-    sns.barplot(data=data, x=x, y=y, ax=ax, color="#2563EB")
-    ax.set_title(title, loc="left", fontweight="bold")
-    ax.set_xlabel(xlabel)
-    ax.set_ylabel(ylabel)
-    ax.grid(axis="x", alpha=0.25)
-    return fig
+def show_bar_chart(data: pd.DataFrame, label_col: str, value_col: str, title: str) -> None:
+    st.subheader(title)
+    chart_data = data[[label_col, value_col]].set_index(label_col)
+    st.bar_chart(chart_data, use_container_width=True)
 
 
-def line_chart(data: pd.DataFrame, x: str, y: str, title: str, ylabel: str = ""):
-    fig, ax = plt.subplots(figsize=(11, 5))
-    sns.lineplot(data=data, x=x, y=y, marker="o", ax=ax, color="#2563EB")
-    ax.set_title(title, loc="left", fontweight="bold")
-    ax.set_xlabel("")
-    ax.set_ylabel(ylabel)
-    ax.tick_params(axis="x", rotation=45)
-    ax.grid(alpha=0.25)
-    return fig
+def show_line_chart(data: pd.DataFrame, label_col: str, value_col: str, title: str) -> None:
+    st.subheader(title)
+    chart_data = data[[label_col, value_col]].set_index(label_col)
+    st.line_chart(chart_data, use_container_width=True)
 
 
 def build_segment_table(df: pd.DataFrame, group_col: str, min_orders: int) -> pd.DataFrame:
@@ -221,17 +210,9 @@ with tab_overview:
 
     col1, col2 = st.columns(2)
     with col1:
-        st.pyplot(line_chart(monthly, "purchase_month", "orders", "Pedidos por mes", "Pedidos"))
+        show_line_chart(monthly, "purchase_month", "orders", "Pedidos por mes")
     with col2:
-        st.pyplot(
-            line_chart(
-                monthly,
-                "purchase_month",
-                "products_value",
-                "Valor de produtos por mes",
-                "Valor de produtos",
-            )
-        )
+        show_line_chart(monthly, "purchase_month", "products_value", "Valor de produtos por mes")
 
     st.subheader("Amostra da base integrada")
     st.dataframe(
@@ -268,18 +249,9 @@ with tab_satisfaction:
 
     col1, col2 = st.columns(2)
     with col1:
-        st.pyplot(bar_chart(review_dist, "orders", "review_score", "Distribuicao das notas", "Pedidos", "Nota"))
+        show_bar_chart(review_dist, "review_score", "orders", "Distribuicao das notas")
     with col2:
-        st.pyplot(
-            bar_chart(
-                late_summary,
-                "low_review_rate",
-                "status",
-                "Taxa de review baixo por atraso",
-                "Review baixo",
-                "",
-            )
-        )
+        show_bar_chart(late_summary, "status", "low_review_rate", "Taxa de review baixo por atraso")
 
     st.dataframe(late_summary, use_container_width=True)
 
@@ -297,16 +269,7 @@ with tab_logistics:
     )
     delay_summary["delay_range"] = delay_summary["delay_range"].astype(str)
 
-    st.pyplot(
-        bar_chart(
-            delay_summary,
-            "low_review_rate",
-            "delay_range",
-            "Review baixo por faixa de atraso",
-            "Review baixo",
-            "",
-        )
-    )
+    show_bar_chart(delay_summary, "delay_range", "low_review_rate", "Review baixo por faixa de atraso")
     st.dataframe(delay_summary, use_container_width=True)
 
 with tab_segments:
