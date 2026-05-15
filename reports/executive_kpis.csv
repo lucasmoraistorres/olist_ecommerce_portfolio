@@ -1,0 +1,9 @@
+metric,value
+orders_total,99441.0
+orders_delivered,96478.0
+customers_unique,96096.0
+products_value_delivered,13221498.110000001
+avg_review_score,4.156186520855942
+low_review_rate,0.1276922113698973
+late_rate,0.08112366538820359
+avg_delivery_days,12.558217098051975

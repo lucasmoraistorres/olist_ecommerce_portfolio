@@ -1,0 +1,5 @@
+area,evidence_to_check,recommended_action,validation
+Logistica,Atraso associado a maior taxa de review baixo,Criar fila de monitoramento para pedidos com risco de atraso e comunicacao proativa ao cliente.,Piloto em estados/categorias de maior risco com comparacao antes/depois.
+Seller success,Vendedores com volume relevante e baixa avaliacao media,"Priorizar sellers para revisao de SLA, embalagem, estoque e despacho.",Acompanhar evolucao de atraso e review por seller apos intervencao.
+Pricing e frete,Frete relativo alto associado a pior experiencia,"Testar regras de subsidio, comunicacao ou agrupamento de frete em faixas criticas.","Teste controlado medindo conversao, margem e review."
+Produto analytics,Modelo ranqueia pedidos de risco melhor que baseline,Transformar score em dashboard operacional com capacidade diaria definida.,"Medir precisao, recall e ganho operacional mensalmente."

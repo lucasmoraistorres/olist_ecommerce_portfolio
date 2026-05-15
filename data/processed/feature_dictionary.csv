@@ -1,0 +1,19 @@
+feature,role,business_meaning
+customer_state,categorical,Variavel usada para explicar ou prever baixa satisfacao no nivel do pedido.
+dominant_category,categorical,Variavel usada para explicar ou prever baixa satisfacao no nivel do pedido.
+purchase_month,categorical,Variavel usada para explicar ou prever baixa satisfacao no nivel do pedido.
+purchase_dayofweek,numeric,Variavel usada para explicar ou prever baixa satisfacao no nivel do pedido.
+purchase_hour,numeric,Variavel usada para explicar ou prever baixa satisfacao no nivel do pedido.
+is_weekend_purchase,numeric,Variavel usada para explicar ou prever baixa satisfacao no nivel do pedido.
+order_items,numeric,Variavel usada para explicar ou prever baixa satisfacao no nivel do pedido.
+unique_products,numeric,Variavel usada para explicar ou prever baixa satisfacao no nivel do pedido.
+unique_sellers,numeric,Variavel usada para explicar ou prever baixa satisfacao no nivel do pedido.
+products_value,numeric,Variavel usada para explicar ou prever baixa satisfacao no nivel do pedido.
+freight_value,numeric,Variavel usada para explicar ou prever baixa satisfacao no nivel do pedido.
+freight_ratio,numeric,Variavel usada para explicar ou prever baixa satisfacao no nivel do pedido.
+total_order_value,numeric,Variavel usada para explicar ou prever baixa satisfacao no nivel do pedido.
+payment_installments,numeric,Variavel usada para explicar ou prever baixa satisfacao no nivel do pedido.
+payment_methods,numeric,Variavel usada para explicar ou prever baixa satisfacao no nivel do pedido.
+total_weight_g,numeric,Variavel usada para explicar ou prever baixa satisfacao no nivel do pedido.
+total_volume_cm3,numeric,Variavel usada para explicar ou prever baixa satisfacao no nivel do pedido.
+approval_time_hours,numeric,Variavel usada para explicar ou prever baixa satisfacao no nivel do pedido.

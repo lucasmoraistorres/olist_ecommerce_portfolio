@@ -9,20 +9,11 @@ __pycache__/
 # Dados gerados localmente
 data/interim/*
 !data/interim/.gitkeep
-data/processed/*
-!data/processed/.gitkeep
 
 # Modelos gerados localmente
-models/*
+
 !models/.gitkeep
 
-# Relatorios gerados localmente
-reports/figures/*
-!reports/figures/.gitkeep
-reports/*.csv
-reports/*.xlsx
-reports/*.html
-reports/executive_summary.md
 
 # Sistema
 .DS_Store
