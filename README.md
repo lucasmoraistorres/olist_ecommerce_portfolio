@@ -1,6 +1,6 @@
 # Brazilian E-Commerce Olist: Análise de Negócio e Ciência de Dados
 
-Projeto de portfólio de ciência de dados usando o dataset público **Brazilian E-Commerce Public Dataset by Olist**.
+Projeto de ciência de dados usando o dataset público **Brazilian E-Commerce Public Dataset by Olist**.
 
 O objetivo é construir um case completo, com narrativa executiva, notebooks reproduzíveis e um dashboard em Streamlit para responder:
 
@@ -13,7 +13,7 @@ O objetivo é construir um case completo, com narrativa executiva, notebooks rep
 - Teste de hipóteses de negócio sobre atraso, frete, categorias, estados e satisfação.
 - Dataset de modelagem para risco de review baixo.
 - Modelo preditivo interpretável para priorização operacional.
-- Dashboard Streamlit pronto para deploy no Streamlit Cloud.
+
 
 ## Fonte de dados
 
@@ -24,9 +24,9 @@ data/raw
 
 ## Estrutura
 
-olist_ecommerce_portfolio/
+olist_ecommerce/
   data/
-    raw/          # CSVs usados pelo Streamlit Cloud
+    raw/          # CSVs usados pelos notebooks
     interim/      # bases intermediárias geradas pelos notebooks
     processed/    # dataset final de modelagem
   models/         # modelos treinados localmente
@@ -45,12 +45,6 @@ olist_ecommerce_portfolio/
 04_modelo_review_baixo.ipynb
 05_insights_e_recomendacoes.ipynb
 
-## Como executar localmente
-cd olist_ecommerce_portfolio
-python -m venv .venv
-.\.venv\Scripts\activate
-pip install -r requirements.txt
-streamlit run streamlit_app.py
 
 ## Para trabalhar também com os notebooks:
 

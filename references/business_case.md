@@ -31,4 +31,4 @@ Gestores de marketplace, operacoes logisticas, seller success, produto e analyti
 
 ## Cuidado analitico
 
-As analises sao observacionais. Correlacao nao deve ser apresentada como causalidade. Quando houver recomendacao operacional, ela deve ser acompanhada por proposta de validacao: teste A/B, piloto regional, monitoramento antes/depois ou experimento controlado.
+As analises são observacionais. Correlação não deve ser apresentada como causalidade. Quando houver recomendação operacional, ela deve ser acompanhada por proposta de validação: teste A/B, piloto regional, monitoramento antes/depois ou experimento controlado.
